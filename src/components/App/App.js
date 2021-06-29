@@ -7,6 +7,7 @@ import Cart from '../Cart/Cart';
 
 import UserContext from '../../contexts/UserContext';
 import GlobalStyle from '../GlobalStyle';
+import '../../css/reset.css'
 
 export default function App(){
     const [user, setUser] = useState();
