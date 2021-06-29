@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
+import Loader from 'react-loader-spinner'
 import logotipo from "../../img/logotipo.png";
 
 export default function SignUp(){
@@ -66,7 +67,7 @@ export default function SignUp(){
                         required
                         disabled={disabled}
                     />
-                    <Button disabled={disabled}>Cadastrar</Button>
+                    <Button disabled={disabled}>{ !disabled ? "Cadastrar" : <Loader type="ThreeDots" color="#FFF" height={15}/>}</Button>
                 </Form>
                 <Footer onClick={() => history.push('/sign-in')}>Já tem uma conta? Entre agora!</Footer>
             </Container>
