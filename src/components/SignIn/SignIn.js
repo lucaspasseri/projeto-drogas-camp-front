@@ -32,6 +32,10 @@ const Subtitle = styled.div`
     font-size: 20px;
     color: #FFF;
     text-align: center;
+
+    @media (min-width: 760px) {
+        font-size: 36px;    
+    }
 `;
 
 const BrandName = styled.div`
@@ -41,6 +45,13 @@ const BrandName = styled.div`
     line-height: 84px;
     letter-spacing: 0.05em;
     color: #2F475E;
+
+    @media (max-width: 330px) {
+        font-size: 44px;    
+    }
+    @media (min-width: 760px) {
+        font-size: 70px;    
+    }
 `;
 
 const StyledLink = styled(Link)`
@@ -72,6 +83,8 @@ const StyledForm = styled.form`
         ::placeholder {
             color:#2F475E;
         }
+
+        
     }
 
     button {
@@ -85,6 +98,26 @@ const StyledForm = styled.form`
         font-size: 22px;
         line-height: 40px;
         font-family: 'Arvo', serif;
+    }
+
+    @media (max-width: 330px) {
+        input {
+            width: 300px;
+        }
+
+        button {
+            width: 300px;
+        }
+    }
+
+    @media (min-width: 760px) {
+        input {
+            width: 360px;
+        }
+
+        button {
+            width: 360px;
+        }    
     }
 `;
 
