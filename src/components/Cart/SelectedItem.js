@@ -1,3 +1,4 @@
+import axios from 'axios'
 import styled from 'styled-components'
 import {IoIosRemoveCircle} from 'react-icons/io'
 import {AiFillPlusCircle} from 'react-icons/ai'
@@ -6,7 +7,11 @@ import { useState } from 'react'
 export default function SelectedItem() {
     const [qtd, setQtd] = useState(0)
 
-    
+    function incrementOrDecrement(param){
+        console.log("oi")
+        const request = axios.post(`http:localhost:4000//products/2/${param}`)
+    }
+
     return(
         <Item>
             <Img src="https://pics.drugstore.com/prodimg/416805/220.jpg"/>
@@ -16,11 +21,11 @@ export default function SelectedItem() {
             <Order>
                 <Remove>Remove</Remove>
                 <ContainerQuantity>
-                    <RemoveIcon onClick={() => setQtd(qtd-1)}/>
+                    <RemoveIcon onClick={() => incrementOrDecrement('decrement')}/>
                     <Quantity>
                         {qtd}
                     </Quantity>
-                    <AddIcon onClick={() => setQtd(qtd+1)}/>
+                    <AddIcon onClick={() => incrementOrDecrement('increment')}/>
                 </ContainerQuantity>
                 <Price>R$ 35,00</Price>
             </Order>
