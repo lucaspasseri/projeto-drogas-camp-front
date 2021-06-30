@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
 
 * {
     box-sizing: border-box;
+    font-family: 'Arvo', serif;
 }
 
 button {
@@ -26,6 +27,7 @@ button {
 .red {
     background-color: #E54225;
 }
+
 .big-screen {
     @media (max-width: 560px){
         display: none;

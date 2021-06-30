@@ -68,6 +68,7 @@ export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 20px 0;
+
     :disabled {
         filter: brightness(0.93);
     }
@@ -79,10 +80,9 @@ export const StyledForm = styled.form`
         margin-bottom: 10px;
         border: 0;
         outline: 0;
-        font-weight: bold;
+        color: #363380;
         font-size: 22px;
         line-height: 33px;
-        color: #363380;
         font-family: 'Arvo', serif;
 
         ::placeholder {
