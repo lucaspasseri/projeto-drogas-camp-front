@@ -23,7 +23,11 @@ export default function AlertModal({status, isOpen, setIsOpen}){
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <Title>{status === 201 ? 'Dados cadastrados com sucesso!' : status === 409 ? 'O email inserido já possui cadastro na DrogasCamp!' : 'Você inseriu dados inválidos!'}</Title>
+        <Title>{status === 201 ? 'Dados cadastrados com sucesso!' 
+          : status === 409 ? 'O email inserido já possui cadastro na DrogasCamp!' 
+          : status===401? "Senha errada." 
+          :'Você inseriu dados inválidos!'
+        }</Title>
         <Form onSubmit={stayOnPage}>
           <Button>Ok</Button>
         </Form>

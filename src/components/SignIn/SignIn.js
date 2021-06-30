@@ -1,9 +1,11 @@
 import { useHistory } from "react-router-dom";
 import { useState, useContext, useEffect  } from "react";
 import axios from "axios";
+import AlertModal from '../Modal/AlertModal'
+import Loader from 'react-loader-spinner'
 
 import UserContext from "../../contexts/UserContext";
-import {Page, BrandName, Subtitle, StyledForm, StyledLink} from "../Styles/Components";
+import {Page, Brand, Subtitle, StyledForm, StyledLink} from "../Styles/Components";
 
 export default function SignIn(){
 
@@ -14,6 +16,8 @@ export default function SignIn(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [status, setStatus] = useState(0);
 
     useEffect(() => {
         if (localStorage.user) {
@@ -42,7 +46,11 @@ export default function SignIn(){
             request.then(() => {
                 history.push("/");
             });
-            request.catch(e => alert(e.response.data));
+            request.catch(e =>{
+                setStatus(e.response.status)
+                setIsOpen(true)
+
+            });
 
             setLoading(false);
         } else {
@@ -52,10 +60,14 @@ export default function SignIn(){
     }
 
     return(
-        <Page className="centralized">
+        <Page className="sign-in red">
+        <AlertModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
            <div>
                 <div>   
-                    <BrandName>DrogasCamp<img alt="drogas_camp_logo" src="../../assets/logo.png"/></BrandName>
+                    <Brand>
+                        <div>DrogasCamp</div>
+                        <img alt="drogas_camp_logo" src="../../assets/logo.png"/>
+                    </Brand>
                     <Subtitle>
                         Uma conta válida,<br></br> 
                         uma lista de produtos<br></br> 
@@ -66,7 +78,7 @@ export default function SignIn(){
                     <StyledForm onSubmit={userLogin}>
                         <input 
                             disabled={loading}
-                            placeholder="E - mail"
+                            placeholder="E-mail"
                             value={email}
                             onChange={e=>setEmail(e.target.value)}
                             type="email"
@@ -74,7 +86,7 @@ export default function SignIn(){
                         ></input>
                         <input
                             disabled={loading} 
-                            placeholder="Password"
+                            placeholder="Senha"
                             value={password}
                             onChange={e=>setPassword(e.target.value)}
                             type="password"
@@ -83,7 +95,7 @@ export default function SignIn(){
                         <button
                             type="submit"
                             disabled={loading}
-                        >{loading? "Entrando...": "Entrar"}</button>
+                        >{loading? <Loader type="ThreeDots" color="#FFF" height={15}/>: "Entrar"}</button>
                     </StyledForm> 
                     <StyledLink to="/sign-up" loading={loading? "true": undefined}>
                         <span>Não possui uma conta?<br></br> Crie agora mesmo!</span>
