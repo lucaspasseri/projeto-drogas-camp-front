@@ -8,7 +8,7 @@ export default function Home(){
             <FixedContainer>
                 <TopBar className="red">
                     <Brand>
-                        <div><img src="../../assets/logo.png"/></div>
+                        <div><img alt="drogas_camp_logo" src="../../assets/logo.png"/></div>
                         <div>DROGASCAMP</div>
                     </Brand>
                     <SearchBar className="big-screen" placeholder="Encontre seu produto..."/>
