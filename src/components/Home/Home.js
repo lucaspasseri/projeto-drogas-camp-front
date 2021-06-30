@@ -18,7 +18,11 @@ export default function Home(){
                     <SearchBar className="small-screen" placeholder="Encontre seu produto..."/>
                 </div>
             </FixedContainer>
-            <Container>GALERY</Container>
+            <Container>
+                <div>
+                    Nenhum produto cadastrado. 
+                </div>
+            </Container>
         </Page>
     );  
 }
@@ -45,6 +49,18 @@ const TopBar = styled.div`
 const Container = styled.div`
     background-color: #E5E5E5;
     height: 100vh;
+    padding: 30px;
+    padding-top: 110px;
+    
+    > div {
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 6px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 `;
 
 const Brand = styled.div`
