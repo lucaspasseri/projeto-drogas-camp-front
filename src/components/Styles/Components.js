@@ -2,7 +2,6 @@ import styled from "styled-components";
 import {Link} from "react-router-dom";
 
 export const Page = styled.div`
-    background-color: #B03019;
     height: 100vh;
     overflow: auto;
 

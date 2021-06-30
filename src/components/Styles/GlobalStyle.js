@@ -14,6 +14,9 @@ button {
     align-items: center;
     justify-content: center;
 }
+.red {
+    background-color: #B03019;
+}
 
 `;
 

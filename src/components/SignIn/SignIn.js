@@ -52,7 +52,7 @@ export default function SignIn(){
     }
 
     return(
-        <Page className="centralized">
+        <Page className="centralized red">
            <div>
                 <div>   
                     <BrandName>DrogasCamp<img alt="drogas_camp_logo" src="../../assets/logo.png"/></BrandName>
