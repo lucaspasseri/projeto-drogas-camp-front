@@ -64,6 +64,7 @@ const Container = styled.div`
 `;
 
 const Brand = styled.div`
+
     display: flex;
     img {
         height: 60px;
