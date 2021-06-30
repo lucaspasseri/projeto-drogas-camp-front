@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
 import logotipo from "../../img/logotipo.png";
-import ErrorModal from '../Modal/ErrorModal'
+import AlertModal from '../Modal/AlertModal'
 
 export default function SignUp(){
     const [name, setName] = useState("")
@@ -25,8 +25,8 @@ export default function SignUp(){
         const request = axios.post("http://localhost:4000/sign-up", body)
        
         request.then( () => {
-            //setIsOpen(true)
-            history.push('/sign-in')
+            setStatus(201)
+            setIsOpen(true)
         })
 
         request.catch( (error) => {
@@ -38,7 +38,7 @@ export default function SignUp(){
 
     return(
         <Body>
-            <ErrorModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
+            <AlertModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
             <Container>
                 <Logo src={logotipo}/>
                 <Form onSubmit={signUp}>
