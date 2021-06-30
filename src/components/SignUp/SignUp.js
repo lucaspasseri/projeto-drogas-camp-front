@@ -91,16 +91,13 @@ const Container = styled.div`
     padding-top: 20px;
     text-align: center;
     width: 90vw;
+    @media (min-width: 376px) {
+        width: 375px;
+    }
 `
 const Logo = styled.img`
     height: 190px;
     width: 200px;
-`
-const Header = styled.p`
-    font-size: 30px;
-    text-align: center;
-    color: #fff;
-    margin-bottom: 25px;
 `
 const Form = styled.form`
     display: flex;
