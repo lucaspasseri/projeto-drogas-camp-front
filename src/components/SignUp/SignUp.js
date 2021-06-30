@@ -4,35 +4,41 @@ import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
 import logotipo from "../../img/logotipo.png";
+import ErrorModal from '../Modal/ErrorModal'
 
 export default function SignUp(){
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [repeatPassword, setRepeatPassword] = useState("")    
+    const [confirmPassword, setConfirmPassword] = useState("")    
     const [disabled, setDisabled] = useState(false)
+    const [status, setStatus] = useState(0)
+    const [isOpen, setIsOpen] = useState(false)
+
     const history = useHistory();
 
     function signUp(e){
         e.preventDefault();
         setDisabled(true);
 
-        const body = {name, email, password, repeatPassword}
+        const body = {name, email, password, confirmPassword}
         const request = axios.post("http://localhost:4000/sign-up", body)
-        console.log(body)        
+       
         request.then( () => {
             //setIsOpen(true)
+            history.push('/sign-in')
         })
 
         request.catch( (error) => {
             setDisabled(false);
-            //error.response.status === 400 ? setStatus(400) : setStatus(409)
-            //setIsOpen(true) 
+            error.response.status === 400 ? setStatus(400) : setStatus(409)
+            setIsOpen(true) 
         })
     }
 
     return(
         <Body>
+            <ErrorModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
             <Container>
                 <Logo src={logotipo}/>
                 <Form onSubmit={signUp}>
@@ -62,8 +68,8 @@ export default function SignUp(){
                     <Input 
                         placeholder="Confirme a senha" 
                         type="password"
-                        value={repeatPassword}
-                        onChange={(e) => setRepeatPassword(e.target.value)}
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                         disabled={disabled}
                     />
