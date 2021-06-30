@@ -39,11 +39,14 @@ export default function SignIn(){
             };
 
             const request = axios.post(url, body);
-            request.then(response => console.log(response.data));
-            request.catch(e => console.log(e.response));
+            request.then(() => {
+                history.push("/");
+            });
+            request.catch(e => alert(e.response));
 
             setLoading(false);
         } else {
+            
             alert("Campo(s) incorreto(s) ou em branco.");
         }
     }
@@ -52,7 +55,7 @@ export default function SignIn(){
         <Page className="centralized">
            <div>
                 <div>   
-                    <BrandName>DrogasCamp<img src="../../assets/logo.png"/></BrandName>
+                    <BrandName>DrogasCamp<img alt="drogas_camp_logo" src="../../assets/logo.png"/></BrandName>
                     <Subtitle>
                         Uma conta válida,<br></br> 
                         uma lista de produtos<br></br> 
