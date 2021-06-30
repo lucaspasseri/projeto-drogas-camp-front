@@ -3,7 +3,7 @@ import { useState, useContext, useEffect  } from "react";
 import axios from "axios";
 
 import UserContext from "../../contexts/UserContext";
-import {Page, BrandName, Subtitle, StyledForm, StyledLink} from "../Styles/Components";
+import {Page, Brand, Subtitle, StyledForm, StyledLink} from "../Styles/Components";
 
 export default function SignIn(){
 
@@ -52,10 +52,13 @@ export default function SignIn(){
     }
 
     return(
-        <Page className="centralized red">
+        <Page className="sign-in red">
            <div>
                 <div>   
-                    <BrandName>DrogasCamp<img alt="drogas_camp_logo" src="../../assets/logo.png"/></BrandName>
+                    <Brand>
+                        <div>DrogasCamp</div>
+                        <img alt="drogas_camp_logo" src="../../assets/logo.png"/>
+                    </Brand>
                     <Subtitle>
                         Uma conta válida,<br></br> 
                         uma lista de produtos<br></br> 
