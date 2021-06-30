@@ -9,7 +9,7 @@ export default function SelectedItem() {
 
     function incrementOrDecrement(param){
         console.log("oi")
-        const request = axios.post(`http:localhost:4000//products/2/${param}`)
+        const request = axios.post(`http://localhost:4000/products/2/${param}`)
     }
 
     return(
