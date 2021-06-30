@@ -1,9 +1,9 @@
-import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useState, useContext, useEffect  } from "react";
 import axios from "axios";
 
 import UserContext from "../../contexts/UserContext";
+import {Page, BrandName, Subtitle, StyledForm, StyledLink} from "../Styles/Components";
 
 export default function SignIn(){
 
@@ -42,11 +42,11 @@ export default function SignIn(){
             request.then(() => {
                 history.push("/");
             });
-            request.catch(e => alert(e.response));
+            request.catch(e => alert(e.response.data));
 
             setLoading(false);
         } else {
-            
+
             alert("Campo(s) incorreto(s) ou em branco.");
         }
     }
@@ -85,7 +85,7 @@ export default function SignIn(){
                             disabled={loading}
                         >{loading? "Entrando...": "Entrar"}</button>
                     </StyledForm> 
-                    <StyledLink to="/sign-up" loading={loading}>
+                    <StyledLink to="/sign-up" loading={loading? "true": undefined}>
                         <span>Não possui uma conta?<br></br> Crie agora mesmo!</span>
                     </StyledLink>
                 </div>
@@ -93,118 +93,3 @@ export default function SignIn(){
         </Page>
     );
 }
-const Subtitle = styled.div`
-    font-family: 'Martel', serif;
-    font-size: 20px;
-    color: #FFF;
-    text-align: center;
-
-    @media (min-width: 760px) {
-        font-size: 36px;    
-    }
-`;
-
-const BrandName = styled.div`
-    font-family: 'Martel', serif;
-    font-weight: bold;
-    font-size: 50px;
-    line-height: 84px;
-    letter-spacing: 0.05em;
-    color: #2F475E;
-
-    img {
-        height: 60px;
-    }
-
-    @media (max-width: 330px) {
-        font-size: 44px;    
-    }
-    @media (min-width: 760px) {
-        font-size: 70px;    
-    }
-`;
-
-const StyledLink = styled(Link)`
-    font-family: 'Martel', serif;
-    font-size: 20px;
-    color: #FFF;
-    text-align: center;
-    text-decoration: none;
-    pointer-events: ${props=> props.loading? "none": "auto"};
-`;
-
-const StyledForm = styled.form`
-    display: flex;
-    flex-direction: column;
-    margin: 20px 0;
-    :disabled {
-        filter: brightness(0.93);
-    }
-    input {
-        width: 330px;
-        height: 55px;
-        border-radius: 6px;
-        padding-left: 15px; 
-        margin-bottom: 10px;
-        border: 0;
-        outline: 0;
-        font-weight: bold;
-        font-size: 22px;
-        line-height: 33px;
-        color:#2F475E;
-        font-family: 'Arvo', serif;
-
-        ::placeholder {
-            color:#2F475E;
-        }
-
-        
-    }
-
-    button {
-        width: 330px;
-        height: 55px;
-        border-radius: 6px;
-        border: 0;
-        background: #2F475E;
-        color: #FFF;
-        font-weight: bold;
-        font-size: 22px;
-        line-height: 40px;
-        font-family: 'Arvo', serif;
-    }
-
-    @media (max-width: 330px) {
-        input {
-            width: 300px;
-        }
-
-        button {
-            width: 300px;
-        }
-    }
-
-    @media (min-width: 760px) {
-        input {
-            width: 360px;
-        }
-
-        button {
-            width: 360px;
-        }    
-    }
-`;
-
-const Page = styled.div`
-    background-color: #B03019;
-    height: 100vh;
-    overflow: auto;
-
-    > div{
-        > div {
-            display:flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    }
-`;
