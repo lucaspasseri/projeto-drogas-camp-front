@@ -3,16 +3,17 @@ import axios from "axios";
 import { useState, useEffect, useContext} from "react";
 
 import {FaUser} from "react-icons/fa";
+import { TiShoppingCart } from "react-icons/ti";
 import logo from "../../assets/logo.png"
 import {Page} from "../Styles/Components";
 import UserContext from "../../contexts/UserContext";
 
-import Gallery from "../Gallery/Gallery";
-
+import Product from "../Product/Product";
 
 export default function Home(){
     
     const [products, setProducts] = useState([]);
+    const [counterSelectedProducts, setCounterSelectedProducts] = useState([]);
 
     const { setUser } = useContext(UserContext);
 
@@ -27,12 +28,39 @@ export default function Home(){
     });
 
     function getProducts(){
-        //axios get "/products"
         const url = "http://localhost:4000/products"
         const request = axios.get(url);
         request.then(response => setProducts(response.data));
         request.catch(error => console.log(error));
     }
+
+    const productsList = products.map((product, i) => {
+        return <Product 
+                    key={i}
+                    id={product.id} 
+                    product={product}
+                    counter={counterSelectedProducts} 
+                    setCounter={setCounterSelectedProducts}/>
+        ;
+    });
+
+    function getTotal(lista){
+        let total = 0;
+        if(lista.length>0){
+            for(let i = 0; i< lista.length; i++){
+                if(lista[i]!==undefined){
+                    total+=Number(lista[i]);
+                }
+            }
+        }
+        return total;
+    }
+
+    function goToCart(){
+        console.log(counterSelectedProducts);
+    } 
+
+    console.log(counterSelectedProducts);
 
     return(
         <Page>
@@ -49,18 +77,41 @@ export default function Home(){
                     <SearchBar className="small-screen" placeholder="Encontre seu produto..."/>
                 </div>
             </FixedContainer>
-            <Container>
-                <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
+            <Container model={products.length===0?true:undefined}>
+                <div>
+                    <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
+                    <Cart onClick={goToCart} noProducts={getTotal(counterSelectedProducts)===0?true:undefined}>
+                        <TiShoppingCart className="icon" size="40" fill="#7dff49"/>
+                        <div>
+                            {counterSelectedProducts.length>0?
+                                getTotal(counterSelectedProducts) :
+                                0
+                            }
+                        </div>
+                    </Cart>
+                </div>
+                
                 <div>
                     {products.length === 0 ?
                         "Nenhum produto cadastrado." :
-                        <Gallery products={products}/> 
+                        productsList
                     } 
                 </div>
             </Container>
         </Page>
     );  
-}
+} 
+
+const Cart = styled.div`
+    display: ${props => props.noProducts?"none":"flex"};
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+
+    > div {
+        font-size: 20px;
+    }
+`;
 
 const FixedContainer = styled.div`
     position: fixed;
@@ -83,23 +134,47 @@ const TopBar = styled.div`
 
 const Container = styled.div`
     background-color: #E5E5E5;
-    height: 100vh;
     padding: 30px;
     padding-top: 110px;
 
     h1 {
-        margin-bottom: 10px;
         font-weight: bold;
+        font-size: 20px;
+    }
+
+    >div:first-of-type {
+        display:flex;
+        justify-content:space-between;
+        margin-bottom: 10px;
+        height:40px;
+
     }
     
-    > div {
+    > div:last-of-type {
+        min-height: Calc(100vh - 190px);
         height: 100%;
         width: 100%;
         background-color: #fff;
         border-radius: 6px;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: ${props => props.model?"center": "none"};
+        align-items: ${props => props.model?"center": "none"};
+        flex-wrap: wrap;
+        padding: 20px 10px 10px 10px;
+    }
+
+    @media (max-width: 560px){
+        padding-top: 180px;
+
+        > div:last-of-type{
+            min-height: Calc(100vh - 260px);
+        }
+    }
+
+    @media (max-width:420px){
+        h1 {
+            display: none;
+        }
     }
 `;
 
@@ -139,7 +214,6 @@ const SearchBar = styled.input`
     padding-left: 15px; 
     border: 0;
     outline: 0;
-    font-weight: bold;
     font-size: 22px;
     line-height: 33px;
     color: #363380;
