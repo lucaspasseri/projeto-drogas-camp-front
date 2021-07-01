@@ -1,12 +1,19 @@
 import styled from 'styled-components'
 
-export default function SideBar() {
+export default function SideBar({totals}) {
+    const total = totals.toFixed(2).toString().replace(".",",")
+    const rewards = (totals*0.01).toFixed(2).toString().replace(".",",")
+
+    function proceedToCheckout(){
+        
+    }
+    
     return (
         <OrderSummary> 
             <Title>Resumo do pedido</Title>
             <Div>
                 <Subtitle>Produtos:</Subtitle>
-                <Value>R$ 150,00</Value> 
+                <Value>R$ {total}</Value> 
             </Div>
             <Div>
                 <Subtitle>Entrega:</Subtitle>
@@ -14,11 +21,11 @@ export default function SideBar() {
             </Div>
             <HorizontalLine/>
             <Div>
-                <Subtitle>Total</Subtitle>
-                <Value>R$ 150,00</Value>
+                <Subtitle><span>Total:</span></Subtitle>
+                <Value>R$ {total}</Value>
             </Div>
-            <Button>Finalizar compra</Button>
-            <Rewards>DrogasCamp Rewards:<span> R$ 1,50</span></Rewards>
+            <Button onClick={proceedToCheckout}>Finalizar compra</Button>
+            <Rewards>DrogasCamp Rewards:<span> R$ {rewards}</span></Rewards>
         </OrderSummary>
     )
 }
@@ -42,7 +49,11 @@ const Title = styled.h2`
     display: inline-block;
     padding-bottom: 25px;
 `
-const Subtitle = styled.p``
+const Subtitle = styled.p`
+    span{
+        font-weight: 700;
+    }
+`
 const Value = styled.p``
 const Button = styled.button`
     width: 100%;

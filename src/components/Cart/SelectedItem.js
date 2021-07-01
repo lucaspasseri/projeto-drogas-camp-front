@@ -6,32 +6,45 @@ import { useState } from 'react'
 
 export default function SelectedItem({item}) {
     const [qtd, setQtd] = useState(0)
+    const price = (item.price/100).toFixed(2).toString().replace(".",",")
+    const totalValue = (qtd*item.price/100).toFixed(2).toString().replace(".",",")
 
-    function incrementOrDecrement(param){
-        const request = axios.post(`http://localhost:4000/products/2/${param}`)
-        param === 'increment' ? setQtd(qtd+1) : setQtd(qtd-1) 
+    function addOrRemove(param){
+        const request = axios.post(`http://localhost:4000/products/${item.id}/${param}`)
+        
+        request.then( (response) => {
+            if(response.data.add) {
+                setQtd(qtd+1)
+                item.quantity = qtd +1 
+            } else if(response.data.remove){
+                setQtd(qtd-1)
+                item.quantity = qtd -1
+            } 
+            console.log(item)
+        })
+       
     }
-
+    
     return(
         <Item>
             <Hold>
-                <Img src="https://pics.drugstore.com/prodimg/416805/220.jpg"/>
+                <Img src={item.image}/>
                 <Text>
-                    <Title>Coca-Cola Soda, Fridge Pack</Title>
-                    <Description>40ml</Description>
-                    <UnitPrice>Valor unitário: R$ 35,00</UnitPrice> 
+                    <Title>{item.name}</Title>
+                    <Description>{item.description}</Description>
+                    <UnitPrice>Valor unitário: R$ {price}</UnitPrice> 
                 </Text>
             </Hold>
             <Order>
                 <Remove>Remover</Remove>
                 <ContainerQuantity>
-                    <RemoveIcon onClick={() => incrementOrDecrement('decrement')} none={qtd}/>
+                    <RemoveIcon onClick={() => addOrRemove('remove')} none={qtd}/>
                     <Quantity>
                         {qtd}
                     </Quantity>
-                    <AddIcon onClick={() => incrementOrDecrement('increment')}/>
+                    <AddIcon onClick={() => addOrRemove('add')}/>
                 </ContainerQuantity>
-                <Price>R$ 35,00</Price>
+                <Price>R$ {totalValue}</Price>
             </Order>
         </Item>
     )

@@ -3,9 +3,23 @@ import SelectedItem from './SelectedItem';
 import SideBar from './SideBar';
 import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
-import { Page } from '../Styles/Components';
+import { useState } from 'react';
+
 export default function Cart(){
+     const items = [
+        {
+            id: 1, name: 'Coca-Cola Soda, Fridge Pack', description: '350ml', price: 3500, inStock: 15, image: 'https://pics.drugstore.com/prodimg/416805/220.jpg', isSelected: true, quantity: 0
+        },
+        {
+            id: 2, name: 'Covid-19 test', description: 'the best', price: 1500, inStock: 15, image: 'https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2021/03/shutterstock_1656883729-1.jpg', isSelected: true, quantity: 0
+        },
+    ]
+
+    const totals = items.map( item => item.quantity*item.price/100).reduce((accumulator, currentValue) => accumulator + currentValue);
+
     return(
+        <>
+        <Top/>
         <Container>
             <Title>
                 <BackToItems to="/"> <ArrowBackIcon/> Continue comprando</BackToItems>
@@ -13,20 +27,24 @@ export default function Cart(){
             </Title>
             <Content>
                 <ItemContainer>
-                    <SelectedItem/>
-                    <SelectedItem/>
+                    {items.map( item => <SelectedItem key={item.id} item={item}  />)}
                 </ItemContainer>
-                <SideBar/>
+                <SideBar totals={totals}/>
             </Content>
         </Container>
+        </>
     );
 }
 
+const Top = styled.div`
+    height: 90px;
+    background-color: #323264;
+`
 const Container = styled.div`
     width: 75vw;
     height: 100vh;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
 `
@@ -50,6 +68,7 @@ const ArrowBackIcon = styled(IoIosArrowBack)`
 const BackToItems = styled(Link)`
     color: #284B9B; 
     text-decoration: none;
-    display: inline-block;
     margin-bottom: 15px;
+    display: flex;
+    align-items: center;
 `
