@@ -4,24 +4,28 @@ import {IoIosRemoveCircle} from 'react-icons/io'
 import {AiFillPlusCircle} from 'react-icons/ai'
 import { useState } from 'react'
 
-export default function SelectedItem() {
+export default function SelectedItem({item}) {
     const [qtd, setQtd] = useState(0)
 
     function incrementOrDecrement(param){
-        console.log("oi")
         const request = axios.post(`http://localhost:4000/products/2/${param}`)
+        param === 'increment' ? setQtd(qtd+1) : setQtd(qtd-1) 
     }
 
     return(
         <Item>
-            <Img src="https://pics.drugstore.com/prodimg/416805/220.jpg"/>
-            <Title>
-                Coca-Cola Soda, Fridge Pack 
-            </Title>
+            <Hold>
+                <Img src="https://pics.drugstore.com/prodimg/416805/220.jpg"/>
+                <Text>
+                    <Title>Coca-Cola Soda, Fridge Pack</Title>
+                    <Description>40ml</Description>
+                    <UnitPrice>Valor unitário: R$ 35,00</UnitPrice> 
+                </Text>
+            </Hold>
             <Order>
-                <Remove>Remove</Remove>
+                <Remove>Remover</Remove>
                 <ContainerQuantity>
-                    <RemoveIcon onClick={() => incrementOrDecrement('decrement')}/>
+                    <RemoveIcon onClick={() => incrementOrDecrement('decrement')} none={qtd}/>
                     <Quantity>
                         {qtd}
                     </Quantity>
@@ -39,20 +43,37 @@ const Item = styled.div`
     width: 100%;
     height: 185px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     padding: 20px 10px;
     margin-bottom: 20px;
-
+`
+const Hold = styled.div`
+    display: flex;
 `
 const Img = styled.img`
     height: 120px;
     width: 120px;
 `
-const Title = styled.div`
+const Text = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 0 15px;
+`
+const Title = styled.p`
     color: #284B9B;
     font-weight: 700;
-    align-self: flex-start;
+    padding-bottom: 15px;
+`
+const Description = styled.p`
+    color: #c5c5c5;
+    font-weight: 700;
+    font-size: 15px;
+    padding-bottom: 15px;
+`
+const UnitPrice = styled.p`
+    color: #c5c5c5;
+    font-weight: 700;
+    font-size: 15px;
 `
 const Order = styled.div`
     height: 100%;
@@ -61,9 +82,10 @@ const Order = styled.div`
     justify-content: space-between;
 `
 const RemoveIcon = styled(IoIosRemoveCircle)`
-    color: #D9DADA;
+    color: ${props => props.none !== 0 ? '#323264' : '#D9DADA'};
     font-size: 40px;
     cursor: pointer;
+    pointer-events: ${props=> props.none === 0? "none": "auto"};
 `
 const AddIcon = styled(AiFillPlusCircle)`
     color: #323264;
@@ -77,6 +99,7 @@ const Quantity = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 700;
     margin: 0 5px;
 `
 const ContainerQuantity = styled.div`
