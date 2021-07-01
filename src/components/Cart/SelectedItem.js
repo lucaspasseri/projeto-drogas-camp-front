@@ -41,7 +41,7 @@ const Item = styled.div`
     border-radius: 5px;
     border: 1px solid #c5c5c5;
     width: 100%;
-    height: 185px;
+    height: 170px;
     display: flex;
     justify-content: space-between;
     padding: 20px 10px;

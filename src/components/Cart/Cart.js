@@ -3,12 +3,12 @@ import SelectedItem from './SelectedItem';
 import SideBar from './SideBar';
 import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
-
+import { Page } from '../Styles/Components';
 export default function Cart(){
     return(
         <Container>
             <Title>
-                <BackToItems to="/Home"> <ArrowBackIcon/> Continue comprando</BackToItems>
+                <BackToItems to="/"> <ArrowBackIcon/> Continue comprando</BackToItems>
                 <h1>Carrinho de compras</h1>
             </Title>
             <Content>
