@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
 import Loader from 'react-loader-spinner'
-import logotipo from "../../img/logotipo.png";
+import logo from "../../assets/logo.png"
 import AlertModal from '../Modal/AlertModal'
 
 export default function SignUp(){
@@ -40,7 +40,7 @@ export default function SignUp(){
         <Body>
             <AlertModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
             <Container>
-                <Logo src={logotipo}/>
+                <Logo src={logo}/>
                 <Form onSubmit={signUp}>
                     <Input 
                         placeholder="Nome" 
@@ -75,7 +75,7 @@ export default function SignUp(){
                     />
                     <Button disabled={disabled}>{ !disabled ? "Cadastrar" : <Loader type="ThreeDots" color="#FFF" height={15}/>}</Button>
                 </Form>
-                <Footer onClick={() => history.push('/sign-in')}>Já tem uma conta? Entre agora!</Footer>
+                <Footer disabled={disabled} onClick={() => history.push('/sign-in')}>Já tem uma conta? Entre agora!</Footer>
             </Container>
         </Body>
     );
@@ -96,12 +96,12 @@ const Container = styled.div`
     }
 `
 const Logo = styled.img`
-    height: 190px;
-    width: 200px;
+    height: 150px;
 `
 const Form = styled.form`
     display: flex;
     flex-direction: column;
+    
 `
 const Input = styled.input`
     height: 58px;
@@ -109,15 +109,19 @@ const Input = styled.input`
     font-size: 20px;
     margin-bottom: 13px;
     border-radius: 5px;
-    border: none;
+    border: 0;
+    outline: 0;
+    color: #363380;
+
     ::placeholder{
-        color: #000;
-        opacity: 0.8;
-        font-size: 20px;
+        color: #363380;
     }
+    /* :disabled {
+        filter: brightness(0.93);
+    } */
 `
 const Button = styled.button`
-    height: 46px;
+    height: 58px;
     margin-bottom: 32px;
     background-color: #480085;
     border-radius: 5px;
@@ -127,11 +131,14 @@ const Button = styled.button`
     font-weight: 700;
     cursor: pointer;
 `
+
 const Footer = styled.a`
-    font-size: 15px;
-    font-weight: 700;
+    font-family: 'Martel', serif;
+    font-size: 20px;
     color: #fff;
     display: flex;
     justify-content: center;
     cursor: pointer;
+    pointer-events: ${props=> props.disabled? "none": "auto"};
+    
 `
