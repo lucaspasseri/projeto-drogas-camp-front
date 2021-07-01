@@ -4,10 +4,11 @@ import {IoIosRemoveCircle} from 'react-icons/io'
 import {AiFillPlusCircle} from 'react-icons/ai'
 import { useState } from 'react'
 
-export default function SelectedItem({item}) {
+export default function SelectedItem({item, setProducts, products}) {
     const [qtd, setQtd] = useState(0)
     const price = (item.price/100).toFixed(2).toString().replace(".",",")
     const totalValue = (qtd*item.price/100).toFixed(2).toString().replace(".",",")
+    const index = item.id-1
 
     function addOrRemove(param){
         const request = axios.post(`http://localhost:4000/products/${item.id}/${param}`)
@@ -16,11 +17,15 @@ export default function SelectedItem({item}) {
             if(response.data.add) {
                 setQtd(qtd+1)
                 item.quantity = qtd +1 
+                products[index] = item
+                setProducts([...products])
             } else if(response.data.remove){
                 setQtd(qtd-1)
                 item.quantity = qtd -1
+                products[index] = item
+                setProducts([...products])
             } 
-            console.log(item)
+            
         })
        
     }
