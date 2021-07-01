@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect, useContext} from "react";
+import { useHistory } from "react-router-dom";
 
 import {FaUser} from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
+import { ImForward } from "react-icons/im";
 import logo from "../../assets/logo.png"
 import {Page} from "../Styles/Components";
 import UserContext from "../../contexts/UserContext";
@@ -12,10 +14,11 @@ import Product from "../Product/Product";
 
 export default function Home(){
     
+    const history = useHistory();
     const [products, setProducts] = useState([]);
     const [counterSelectedProducts, setCounterSelectedProducts] = useState([]);
 
-    const { setUser } = useContext(UserContext);
+    const { setUser, setCart, cart } = useContext(UserContext);
 
     useEffect(() => {
         if (localStorage.user) {
@@ -58,9 +61,13 @@ export default function Home(){
 
     function goToCart(){
         console.log(counterSelectedProducts);
-    } 
-
-    console.log(counterSelectedProducts);
+        const cleanProducts = counterSelectedProducts.slice(1, counterSelectedProducts.length);
+        console.log(cleanProducts);
+        console.log(cart);
+        setCart([...counterSelectedProducts]);
+        console.log(cart);
+        history.push("/cart");
+    }
 
     return(
         <Page>
@@ -81,6 +88,7 @@ export default function Home(){
                 <div>
                     <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
                     <Cart onClick={goToCart} noProducts={getTotal(counterSelectedProducts)===0?true:undefined}>
+                        <ImForward className="icon" size="32" fill="#7dff49"/>
                         <TiShoppingCart className="icon" size="40" fill="#7dff49"/>
                         <div>
                             {counterSelectedProducts.length>0?
@@ -107,9 +115,23 @@ const Cart = styled.div`
     justify-content: center;
     align-items: center;
     margin-left: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 2px 6px;
 
     > div {
         font-size: 20px;
+        height: 26px;
+        min-width: 26px;
+        border-radius:100%;
+        background-color: #E5E5E5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 500px){
+        margin-left: 0;
     }
 `;
 
@@ -171,7 +193,7 @@ const Container = styled.div`
         }
     }
 
-    @media (max-width:420px){
+    @media (max-width:500px){
         h1 {
             display: none;
         }
