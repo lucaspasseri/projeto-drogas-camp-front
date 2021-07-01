@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import SelectedItem from './SelectedItem';
 import SideBar from './SideBar';
+import EmptyCart from './EmptyCart';
+
 import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -26,7 +28,8 @@ export default function Cart(){
         <>
         <Top/>
         <Container>
-            <Title>
+            { products.length !==0 ? 
+            <><Title>
                 <BackToItems to="/"> <ArrowBackIcon/> Continue comprando</BackToItems>
                 <h1>Carrinho de compras</h1>
             </Title>
@@ -35,7 +38,9 @@ export default function Cart(){
                     {items.map( item => <SelectedItem key={item.id} item={item} products={products} setProducts={setProducts} />)}
                 </ItemContainer>
                 <SideBar totals={totals}/>
-            </Content>
+            </Content></> : 
+            <EmptyCart/> 
+            }
         </Container>
         </>
     );
