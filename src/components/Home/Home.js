@@ -1,14 +1,28 @@
-import {Page} from "../Styles/Components";
 import styled from "styled-components";
+
 import {FaUser} from "react-icons/fa";
+import logo from "../../assets/logo.png"
+import {Page} from "../Styles/Components";
+
+import Gallery from "../Gallery/Gallery";
+import { useState } from "react";
 
 export default function Home(){
+    
+    const [products, setProducts] = useState([]);
+
+    function getProducts(){
+        //axios get "/products"
+        //then setProducts
+        //catch Error
+    }
+
     return(
         <Page>
             <FixedContainer>
                 <TopBar className="red">
                     <Brand>
-                        <div><img alt="drogas_camp_logo" src="../../assets/logo.png"/></div>
+                        <div><img alt="drogas_camp_logo" src={logo}/></div>
                         <div>DROGASCAMP</div>
                     </Brand>
                     <SearchBar className="big-screen" placeholder="Encontre seu produto..."/>
@@ -19,8 +33,12 @@ export default function Home(){
                 </div>
             </FixedContainer>
             <Container>
+                <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
                 <div>
-                    Nenhum produto cadastrado. 
+                    {products.length === 0 ?
+                        "Nenhum produto cadastrado." :
+                        <Gallery/> 
+                    } 
                 </div>
             </Container>
         </Page>
@@ -51,6 +69,11 @@ const Container = styled.div`
     height: 100vh;
     padding: 30px;
     padding-top: 110px;
+
+    h1 {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
     
     > div {
         height: 100%;
@@ -77,7 +100,7 @@ const Brand = styled.div`
         font-weight: bold;
         margin-top: 8px;
 
-        @media (max-width: 710px){
+        @media (max-width: 715px){
             display: none;
         }
         @media (max-width: 560px){
