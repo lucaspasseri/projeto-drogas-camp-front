@@ -1,20 +1,37 @@
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useEffect, useContext} from "react";
 
 import {FaUser} from "react-icons/fa";
 import logo from "../../assets/logo.png"
 import {Page} from "../Styles/Components";
+import UserContext from "../../contexts/UserContext";
 
 import Gallery from "../Gallery/Gallery";
-import { useState } from "react";
+
 
 export default function Home(){
     
     const [products, setProducts] = useState([]);
 
+    const { setUser } = useContext(UserContext);
+
+    useEffect(() => {
+        if (localStorage.user) {
+          const userStorage = JSON.parse(localStorage.user);
+          setUser(userStorage);
+        } 
+        if(products.length===0){
+            getProducts();
+        } 
+    });
+
     function getProducts(){
         //axios get "/products"
-        //then setProducts
-        //catch Error
+        const url = "http://localhost:4000/products"
+        const request = axios.get(url);
+        request.then(response => setProducts(response.data));
+        request.catch(error => console.log(error));
     }
 
     return(
@@ -37,7 +54,7 @@ export default function Home(){
                 <div>
                     {products.length === 0 ?
                         "Nenhum produto cadastrado." :
-                        <Gallery/> 
+                        <Gallery products={products}/> 
                     } 
                 </div>
             </Container>
