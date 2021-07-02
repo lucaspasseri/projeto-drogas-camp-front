@@ -7,8 +7,6 @@ export default function Product({id, product, setList, list}){
 
     const { setUser, setCart, cart} = useContext(UserContext);
 
-    console.log(cart[id]);
-
     const [selected, setSelected] = useState(false);
     const [units, setUnits] = useState(0);
 
@@ -18,29 +16,29 @@ export default function Product({id, product, setList, list}){
           const userStorage = JSON.parse(localStorage.user);
           setUser(userStorage);
         } 
-    });
+        if(!!cart[id] && cart[id].quantity>0){
+            setSelected(true);
+            setUnits(cart[id]?.quantity);
+        }
+    }, [cart, id, setUser]);
 
     function selectProduct(){
         if(selected){
             setSelected(false);
             setUnits(0);
-            //counter[id]=0;
             list[id] = {
                 productId: id,
                 quantity: 0
             };
-            //setCounter([...counter]);
             setList([...list]);
             setCart([...list]);
         } else {
             setSelected(true);
             setUnits(1);
-            //counter[id]=1;
             list[id] = {
                 productId : id,
                 quantity: 1
             };
-            //setCounter([...counter]);
             setList([...list]);
             setCart([...list]);
         }
@@ -48,12 +46,10 @@ export default function Product({id, product, setList, list}){
 
     function quantityChanged(event){
         setUnits(Number(event.target.value));
-        //counter[id]=event.target.value;
         list[id]={
             productId: id,
             quantity: Number(event.target.value)
         };
-        //setCounter([...counter]);
         setList([...list]);
         setCart([...list]);
     }

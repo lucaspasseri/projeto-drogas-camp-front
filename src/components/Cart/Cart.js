@@ -10,7 +10,7 @@ import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
 
 export default function Cart(){
-    const {user, cart} = useContext(UserContext);
+    const {cart} = useContext(UserContext);
     console.log(cart);
     const items = [
         {

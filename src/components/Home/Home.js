@@ -19,9 +19,9 @@ export default function Home(){
     const [products, setProducts] = useState();
     const [selectedProducts, setSelectedProducts] = useState([]);
     const [valueSearchBar, setValueSearchBar] = useState("");
-    //const [openTab, setOpenTab] = useState();
+    const [isOpen, setIsOpen] = useState(false);
 
-    const { setUser, setCart} = useContext(UserContext);
+    const { setUser} = useContext(UserContext);
 
     let totalQuantity = 0;
     for (let i = 0; i < selectedProducts.length; i++){
@@ -54,9 +54,6 @@ export default function Home(){
         request.then(response => {
             console.log(response.data);
             console.log(selectedProducts);
-           /*  selectedProducts?.forEach(
-                response.data
-            ); */
             setProducts(response.data)
         });
         request.catch(error => console.log(error.response));
@@ -89,10 +86,20 @@ export default function Home(){
         history.push("/cart");
     }
 
-    console.log(selectedProducts);
+    function closeTab(){
+       setIsOpen(false);
+    }
+
+    function openTab(event){
+        event.stopPropagation();
+        setIsOpen(true);
+        
+     }
+
+    console.log(isOpen);
 
     return(
-        <Page>
+        <Page onClick={closeTab}>
             <FixedContainer>
                 <TopBar className="red">
                     <Brand>
@@ -105,9 +112,12 @@ export default function Home(){
                         setValue={setValueSearchBar} 
                         bigscreen={true}
                     />
-                    <UserConfig >
+                    <UserConfig onClick={openTab}>
                         <div>
                             <FaUser size="26" fill="#363380"/>
+                            <Tab isOpen={isOpen}>
+                                <button>Log out</button>
+                            </Tab>
                         </div>
                     </UserConfig>
                 </TopBar>
@@ -144,7 +154,45 @@ export default function Home(){
             </Container>
         </Page>
     );  
-} 
+}
+
+const Tab = styled.div`
+    background-color: #E54225;
+    height: 40px;
+    width: 100px;
+    position: absolute;
+    top:80px;
+    right:0;
+    display: ${props => props.isOpen? "flex" : "none"};
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 2px -0.5px #000;
+
+    @media (max-width: 560px){
+        top: 145px
+    }
+`;
+
+const UserConfig = styled.div`
+    height: 48px;
+    width: 48px;
+    border-radius: 100%;
+    background-color: #FFF;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+
+    > div {
+        > div {
+            
+        }
+    }
+
+    @media (max-width: 560px){
+        margin-top: 10px;
+    } 
+`;
 
 const Cart = styled.div`
     display: ${props => props.noProducts?"none":"flex"};
@@ -261,32 +309,5 @@ const Brand = styled.div`
     @media (max-width: 560px){
         margin-top: 10px;
 
-    } 
-`;
-
-const UserConfig = styled.div`
-    height: 48px;
-    width: 48px;
-    border-radius: 100%;
-    background-color: #FFF;
-    display: flex;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-
-    > div {
-        > div {
-            height: 160px;
-            width: 160px;
-            opacity: 0.6;
-            background-color: #FFF;
-            position: absolute;
-            top:0;
-            right:0;
-        }
-    }
-
-    @media (max-width: 560px){
-        margin-top: 10px;
     } 
 `;
