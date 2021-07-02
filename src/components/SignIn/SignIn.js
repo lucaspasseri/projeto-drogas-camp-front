@@ -43,7 +43,15 @@ export default function SignIn(){
             };
 
             const request = axios.post(url, body);
-            request.then(() => {
+            request.then((response) => {
+                console.log(response.data);
+                setUser(response.data);
+                localStorage.setItem("user", JSON.stringify({
+                    id: response.data.id,
+                    name: response.data.name,
+                    email: response.data.email,
+                    token: response.data.token
+                }));
                 history.push("/");
             });
             request.catch(e =>{

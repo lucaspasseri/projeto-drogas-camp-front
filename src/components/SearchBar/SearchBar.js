@@ -4,8 +4,8 @@ import {DebounceInput} from 'react-debounce-input';
 export default function SearchBar({bigscreen, value, setValue, filter}){
 
     return(
-        <StyledInput    
-            bigscreen={bigscreen}
+        <StyledInput
+            bigscreen={bigscreen}    
             minLength={1}
             debounceTimeout={500}
             value={value}
