@@ -1,20 +1,29 @@
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import ConfirmationModal from '../Modal/ConfirmationModal'
+import { useState } from 'react'
 
 export default function SideBar({totals, products}) {
+    const [status, setStatus] = useState(0)
+    const [isOpen, setIsOpen] = useState(false)
     const history = useHistory()
     const total = totals.toFixed(2).toString().replace(".",",")
     const rewards = (totals*0.01).toFixed(2).toString().replace(".",",")
 
     function proceedToCheckout(){
-        history.push('/payment')
         const body ={products, totals}
-        const request = axios.post('http://localhost:4000/sales',body) 
+        const request = axios.post('http://localhost:4000/sales',body)
+        
+        request.then(() => {
+            setStatus(200)
+            setIsOpen(true)
+        }) 
     }
     
     return (
         <OrderSummary> 
+            <ConfirmationModal isOpen={isOpen} setIsOpen={setIsOpen} status={status}/>
             <Title>Resumo do pedido</Title>
             <Div>
                 <Subtitle>Produtos:</Subtitle>
