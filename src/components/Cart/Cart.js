@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import SelectedItem from './SelectedItem';
 import SideBar from './SideBar';
 import EmptyCart from './EmptyCart';
-
+import logo from "../../assets/logo.png";
 import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 import { useState, useContext } from 'react';
@@ -18,7 +18,12 @@ export default function Cart(){
     
     return(
         <>
-        <Top/>
+        <Top>
+            <Brand>
+                <div><img alt="drogas_camp_logo" src={logo}/></div>
+                <div>DROGASCAMP</div>
+            </Brand>
+        </Top>
         <Container>
             { products.length !==0 ? 
             <><Title>
@@ -39,16 +44,39 @@ export default function Cart(){
 }
 
 const Top = styled.div`
-    height: 90px;
-    background-color: #323264;
+    height: 80px;
+    padding-left: 10px;
+    background-color: #E54225;
+    display: flex;
+    align-items: center;
+    -webkit-box-shadow: 0px 1px 6px 1px #000000; 
+    box-shadow: 0px 1px 6px 1px #000000;
+`
+const Brand = styled.div`
+    display: flex;
+
+    img {
+        height: 60px;
+    }
+    div:last-of-type {
+        align-self: center;
+        color: #363380;
+        font-family: 'Martel', serif;
+        font-size: 32px;
+        font-weight: bold;
+        margin-top: 8px;
+    }
 `
 const Container = styled.div`
-    width: 75vw;
-    height: 100vh;
+    width: 90vw;
+    padding: 20px;
+    height: auto;
     margin: 0 auto;
     margin-top: 50px;
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    border-radius: 5px;
 
     @media (max-width: 376px) {
         width: 375px;
