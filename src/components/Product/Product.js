@@ -1,10 +1,24 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+
+import UserContext from "../../contexts/UserContext";
 
 export default function Product({id, product, setList, list}){
 
+    const { setUser, setCart, cart} = useContext(UserContext);
+
+    console.log(cart[id]);
+
     const [selected, setSelected] = useState(false);
     const [units, setUnits] = useState(0);
+
+
+    useEffect(() => {
+        if (localStorage.user) {
+          const userStorage = JSON.parse(localStorage.user);
+          setUser(userStorage);
+        } 
+    });
 
     function selectProduct(){
         if(selected){
@@ -17,6 +31,7 @@ export default function Product({id, product, setList, list}){
             };
             //setCounter([...counter]);
             setList([...list]);
+            setCart([...list]);
         } else {
             setSelected(true);
             setUnits(1);
@@ -27,6 +42,7 @@ export default function Product({id, product, setList, list}){
             };
             //setCounter([...counter]);
             setList([...list]);
+            setCart([...list]);
         }
     }
 
@@ -39,6 +55,7 @@ export default function Product({id, product, setList, list}){
         };
         //setCounter([...counter]);
         setList([...list]);
+        setCart([...list]);
     }
 
     return(

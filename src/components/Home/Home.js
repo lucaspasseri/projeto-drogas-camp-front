@@ -23,6 +23,13 @@ export default function Home(){
 
     const { setUser, setCart} = useContext(UserContext);
 
+    let totalQuantity = 0;
+    for (let i = 0; i < selectedProducts.length; i++){
+        if(selectedProducts[i]!==undefined){
+            totalQuantity += selectedProducts[i].quantity
+        }
+    }
+
     useEffect(() => {
         if (localStorage.user) {
           const userStorage = JSON.parse(localStorage.user);
@@ -44,7 +51,14 @@ export default function Home(){
         console.log("filtering! "+query);
         const url = `http://localhost:4000/products/${query}`
         const request = axios.get(url);
-        request.then(response => setProducts(response.data));
+        request.then(response => {
+            console.log(response.data);
+            console.log(selectedProducts);
+           /*  selectedProducts?.forEach(
+                response.data
+            ); */
+            setProducts(response.data)
+        });
         request.catch(error => console.log(error.response));
     }
 
@@ -72,21 +86,10 @@ export default function Home(){
     }
 
     function goToCart(){
-        console.log(selectedProducts);
-        setCart(selectedProducts);
         history.push("/cart");
     }
 
-    
-
     console.log(selectedProducts);
-
-    let totalQuantity = 0;
-    for (let i = 0; i < selectedProducts.length; i++){
-        if(selectedProducts[i]!==undefined){
-            totalQuantity += selectedProducts[i].quantity
-        }
-    }
 
     return(
         <Page>
