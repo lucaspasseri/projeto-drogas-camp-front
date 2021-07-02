@@ -51,7 +51,7 @@ const customStyles = {
     },
   };
   const Title = styled.h2`
-    color: #fff;
+    color: #000;
     font-weight: 700;
     font-size: 15px;
     padding-bottom: 30px;
@@ -63,7 +63,7 @@ const customStyles = {
   const Button = styled.button`
       border-radius: 5px;
       border: none;
-      background-color: #480085;
+      background-color: #323264;
       color: #fff;
       font-weight: 700;
       cursor: pointer;
