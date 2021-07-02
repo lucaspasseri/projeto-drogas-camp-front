@@ -6,26 +6,29 @@ import { useHistory } from "react-router-dom";
 import {FaUser} from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { ImForward } from "react-icons/im";
-import logo from "../../assets/logo.png"
+import logo from "../../assets/logo.png";
 import {Page} from "../Styles/Components";
 import UserContext from "../../contexts/UserContext";
 
 import Product from "../Product/Product";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home(){
     
     const history = useHistory();
-    const [products, setProducts] = useState([]);
-    const [counterSelectedProducts, setCounterSelectedProducts] = useState([]);
+    const [products, setProducts] = useState();
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [valueSearchBar, setValueSearchBar] = useState("");
+    //const [openTab, setOpenTab] = useState();
 
-    const { setUser, setCart, cart } = useContext(UserContext);
+    const { setUser, setCart} = useContext(UserContext);
 
     useEffect(() => {
         if (localStorage.user) {
           const userStorage = JSON.parse(localStorage.user);
           setUser(userStorage);
         } 
-        if(products.length===0){
+        if(products===undefined){
             getProducts();
         } 
     });
@@ -37,13 +40,22 @@ export default function Home(){
         request.catch(error => console.log(error));
     }
 
-    const productsList = products.map((product, i) => {
+    function getFilteredProducts(query){    
+        console.log("filtering! "+query);
+        const url = `http://localhost:4000/products/${query}`
+        const request = axios.get(url);
+        request.then(response => setProducts(response.data));
+        request.catch(error => console.log(error.response));
+    }
+
+    const productsList = products?.map((product, i) => {
         return <Product 
                     key={i}
                     id={product.id} 
                     product={product}
-                    counter={counterSelectedProducts} 
-                    setCounter={setCounterSelectedProducts}/>
+                    list={selectedProducts} 
+                    setList={setSelectedProducts}
+                />
         ;
     });
 
@@ -52,7 +64,7 @@ export default function Home(){
         if(lista.length>0){
             for(let i = 0; i< lista.length; i++){
                 if(lista[i]!==undefined){
-                    total+=Number(lista[i]);
+                    total+=Number(lista[i].quantity);
                 }
             }
         }
@@ -60,13 +72,20 @@ export default function Home(){
     }
 
     function goToCart(){
-        console.log(counterSelectedProducts);
-        const cleanProducts = counterSelectedProducts.slice(1, counterSelectedProducts.length);
-        console.log(cleanProducts);
-        console.log(cart);
-        setCart([...counterSelectedProducts]);
-        console.log(cart);
+        console.log(selectedProducts);
+        setCart(selectedProducts);
         history.push("/cart");
+    }
+
+    
+
+    console.log(selectedProducts);
+
+    let totalQuantity = 0;
+    for (let i = 0; i < selectedProducts.length; i++){
+        if(selectedProducts[i]!==undefined){
+            totalQuantity += selectedProducts[i].quantity
+        }
     }
 
     return(
@@ -77,22 +96,36 @@ export default function Home(){
                         <div><img alt="drogas_camp_logo" src={logo}/></div>
                         <div>DROGASCAMP</div>
                     </Brand>
-                    <SearchBar className="big-screen" placeholder="Encontre seu produto..."/>
-                    <UserConfig><FaUser size="26" fill="#363380"/></UserConfig>
+                    <SearchBar
+                        filter={getFilteredProducts} 
+                        value={valueSearchBar}
+                        setValue={setValueSearchBar} 
+                        bigscreen={true}
+                    />
+                    <UserConfig >
+                        <div>
+                            <FaUser size="26" fill="#363380"/>
+                        </div>
+                    </UserConfig>
                 </TopBar>
                 <div className="search-bar-container red">
-                    <SearchBar className="small-screen" placeholder="Encontre seu produto..."/>
+                    <SearchBar
+                        filter={getFilteredProducts}
+                        value={valueSearchBar}
+                        setValue={setValueSearchBar} 
+                        bigscreen={false}
+                    />
                 </div>
             </FixedContainer>
-            <Container model={products.length===0?true:undefined}>
+            <Container model={products?.length===0?true:undefined}>
                 <div>
                     <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
-                    <Cart onClick={goToCart} noProducts={getTotal(counterSelectedProducts)===0?true:undefined}>
+                    <Cart onClick={goToCart} noProducts={totalQuantity===0?true:undefined}>
                         <ImForward className="icon" size="32" fill="#7dff49"/>
                         <TiShoppingCart className="icon" size="40" fill="#7dff49"/>
                         <div>
-                            {counterSelectedProducts.length>0?
-                                getTotal(counterSelectedProducts) :
+                            {selectedProducts.length>0?
+                                getTotal(selectedProducts) :
                                 0
                             }
                         </div>
@@ -100,7 +133,7 @@ export default function Home(){
                 </div>
                 
                 <div>
-                    {products.length === 0 ?
+                    {products?.length === 0 ?
                         "Nenhum produto cadastrado." :
                         productsList
                     } 
@@ -151,7 +184,6 @@ const TopBar = styled.div`
     width: 100vw;
     padding-right: 18px;
     padding-left: 10px;
-
 `;
 
 const Container = styled.div`
@@ -229,27 +261,6 @@ const Brand = styled.div`
     } 
 `;
 
-const SearchBar = styled.input`
-    width: 330px;
-    height: 45px;
-    border-radius: 6px;
-    padding-left: 15px; 
-    border: 0;
-    outline: 0;
-    font-size: 22px;
-    line-height: 33px;
-    color: #363380;
-    font-family: 'Arvo', serif;
-
-    ::placeholder {
-        color: #363380;
-    }
-
-    @media (max-width: 560px){
-        width: 300px;
-    } 
-`;
-
 const UserConfig = styled.div`
     height: 48px;
     width: 48px;
@@ -259,6 +270,18 @@ const UserConfig = styled.div`
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
+
+    > div {
+        > div {
+            height: 160px;
+            width: 160px;
+            opacity: 0.6;
+            background-color: #FFF;
+            position: absolute;
+            top:0;
+            right:0;
+        }
+    }
 
     @media (max-width: 560px){
         margin-top: 10px;

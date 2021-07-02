@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-export default function Product({id, product, setCounter, counter}){
+export default function Product({id, product, setList, list}){
 
     const [selected, setSelected] = useState(false);
     const [units, setUnits] = useState(0);
@@ -10,20 +10,35 @@ export default function Product({id, product, setCounter, counter}){
         if(selected){
             setSelected(false);
             setUnits(0);
-            counter[id]=0;
-            setCounter([...counter]);
+            //counter[id]=0;
+            list[id] = {
+                productId: id,
+                quantity: 0
+            };
+            //setCounter([...counter]);
+            setList([...list]);
         } else {
             setSelected(true);
             setUnits(1);
-            counter[id]=1;
-            setCounter([...counter]);
+            //counter[id]=1;
+            list[id] = {
+                productId : id,
+                quantity: 1
+            };
+            //setCounter([...counter]);
+            setList([...list]);
         }
     }
 
     function quantityChanged(event){
         setUnits(Number(event.target.value));
-        counter[id]=event.target.value;
-        setCounter([...counter]);
+        //counter[id]=event.target.value;
+        list[id]={
+            productId: id,
+            quantity: Number(event.target.value)
+        };
+        //setCounter([...counter]);
+        setList([...list]);
     }
 
     return(

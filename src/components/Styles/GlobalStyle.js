@@ -38,7 +38,6 @@ button {
         display: none;
     }
 }
-
 `;
 
 export default GlobalStyle;
