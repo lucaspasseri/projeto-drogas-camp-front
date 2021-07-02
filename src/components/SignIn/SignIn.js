@@ -57,7 +57,7 @@ export default function SignIn(){
             request.catch(e =>{
                 setStatus(e.response.status)
                 setIsOpen(true)
-
+                console.log(e.response.status)
             });
 
             setLoading(false);

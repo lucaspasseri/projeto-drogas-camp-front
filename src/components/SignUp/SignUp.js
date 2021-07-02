@@ -95,7 +95,7 @@ export default function SignUp(){
 }
 
 const Body = styled.div`
-    background-color: #E40017;
+    background-color: #E54225;
     width: 100vw;
     height: 100vh;
 `
@@ -136,7 +136,7 @@ const Input = styled.input`
 const Button = styled.button`
     height: 58px;
     margin-bottom: 32px;
-    background-color: #480085;
+    background:#363380;
     border-radius: 5px;
     border: none;
     color: #fff;

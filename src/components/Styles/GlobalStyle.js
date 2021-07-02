@@ -2,6 +2,9 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
+body{
+    background-color: #E5E5E5;
+}
 * {
     box-sizing: border-box;
     font-family: 'Arvo', serif;
