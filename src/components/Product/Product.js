@@ -6,7 +6,6 @@ import UserContext from "../../contexts/UserContext";
 export default function Product({id, product, setList, list}){
 
     const { setUser, setCart, cart} = useContext(UserContext);
-
     const [selected, setSelected] = useState(false);
     const [units, setUnits] = useState(0);
 
@@ -28,6 +27,10 @@ export default function Product({id, product, setList, list}){
             setUnits(0);
             list[id] = {
                 productId: id,
+                price: product.price,
+                name: product.name,
+                image: product.image,
+                description: product.description,
                 quantity: 0
             };
             setList([...list]);
@@ -37,6 +40,10 @@ export default function Product({id, product, setList, list}){
             setUnits(1);
             list[id] = {
                 productId : id,
+                price: product.price,
+                name: product.name,
+                image: product.image,
+                description: product.description,
                 quantity: 1
             };
             setList([...list]);
@@ -48,6 +55,10 @@ export default function Product({id, product, setList, list}){
         setUnits(Number(event.target.value));
         list[id]={
             productId: id,
+            price: product.price,
+            name: product.name,
+            image: product.image,
+            description: product.description,
             quantity: Number(event.target.value)
         };
         setList([...list]);

@@ -2,7 +2,7 @@ import Modal from 'react-modal'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-export default function AlertModal({status, isOpen, setIsOpen}){
+export default function ConfirmationModal({status, isOpen, setIsOpen}){
     const history = useHistory()
     Modal.setAppElement('.root')
   
@@ -13,8 +13,8 @@ export default function AlertModal({status, isOpen, setIsOpen}){
     function stayOnPage(e){
         e.preventDefault()
         setIsOpen(false)
-        if(status === 201){
-          history.push('/sign-in')
+        if(status === 200){
+          history.push('/')
         }
     }
     return( 
@@ -23,10 +23,7 @@ export default function AlertModal({status, isOpen, setIsOpen}){
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <Title>{status === 201 ? 'Dados cadastrados com sucesso!' 
-          : status === 409 ? 'O email inserido já possui cadastro na DrogasCamp!' 
-          : status===401? "Senha errada." 
-          :'Você inseriu dados inválidos!'
+        <Title>{status === 200 ? 'Sua compra foi realizada com sucesso, o resumo do pedido foi enviado para o seu email!' : 'Houve algum problema!'
         }</Title>
         <Form onSubmit={stayOnPage}>
           <Button>Ok</Button>
@@ -51,7 +48,7 @@ const customStyles = {
     },
   };
   const Title = styled.h2`
-    color: #fff;
+    color: #000;
     font-weight: 700;
     font-size: 15px;
     padding-bottom: 30px;
@@ -63,7 +60,7 @@ const customStyles = {
   const Button = styled.button`
       border-radius: 5px;
       border: none;
-      background-color: #480085;
+      background-color: #323264;
       color: #fff;
       font-weight: 700;
       cursor: pointer;
