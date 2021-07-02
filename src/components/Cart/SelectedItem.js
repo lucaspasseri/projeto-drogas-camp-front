@@ -5,7 +5,7 @@ import {AiFillPlusCircle} from 'react-icons/ai'
 import { useState } from 'react'
 
 export default function SelectedItem({item, setProducts, products}) {
-    const [productQuantity, setproductQuantity] = useState(0)
+    const [productQuantity, setProductQuantity] = useState(0)
     const price = (item.price/100).toFixed(2).toString().replace(".",",")
     const totalValue = (productQuantity*item.price/100).toFixed(2).toString().replace(".",",")
     const index = item.id-1
