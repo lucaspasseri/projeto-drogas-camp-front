@@ -13,9 +13,10 @@ import "../../css/styles.css";
 
 export default function App(){
     const [user, setUser] = useState();
+    const [cart, setCart] = useState([]);
 
     return( 
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{user, setUser, cart, setCart}}>
             <GlobalStyle/>
             <BrowserRouter> 
                 <Switch>

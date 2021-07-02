@@ -97,7 +97,7 @@ export default function SignIn(){
                             disabled={loading}
                         >{loading? <Loader type="ThreeDots" color="#FFF" height={15}/>: "Entrar"}</button>
                     </StyledForm> 
-                    <StyledLink to="/sign-up" loading={loading? "true": undefined}>
+                    <StyledLink to="/sign-up" loading={loading? true: undefined}>
                         <span>Não possui uma conta?<br></br> Crie agora mesmo!</span>
                     </StyledLink>
                 </div>

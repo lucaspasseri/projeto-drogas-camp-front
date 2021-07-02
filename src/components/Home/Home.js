@@ -1,31 +1,175 @@
-import {Page} from "../Styles/Components";
 import styled from "styled-components";
+import axios from "axios";
+import { useState, useEffect, useContext} from "react";
+import { useHistory } from "react-router-dom";
+
 import {FaUser} from "react-icons/fa";
+import { TiShoppingCart } from "react-icons/ti";
+import { ImForward } from "react-icons/im";
+import logo from "../../assets/logo.png";
+import {Page} from "../Styles/Components";
+import UserContext from "../../contexts/UserContext";
+
+import Product from "../Product/Product";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home(){
+    
+    const history = useHistory();
+    const [products, setProducts] = useState();
+    const [selectedProducts, setSelectedProducts] = useState([]);
+    const [valueSearchBar, setValueSearchBar] = useState("");
+    //const [openTab, setOpenTab] = useState();
+
+    const { setUser, setCart} = useContext(UserContext);
+
+    let totalQuantity = 0;
+    for (let i = 0; i < selectedProducts.length; i++){
+        if(selectedProducts[i]!==undefined){
+            totalQuantity += selectedProducts[i].quantity
+        }
+    }
+
+    useEffect(() => {
+        if (localStorage.user) {
+          const userStorage = JSON.parse(localStorage.user);
+          setUser(userStorage);
+        } 
+        if(products===undefined){
+            getProducts();
+        } 
+    });
+
+    function getProducts(){
+        const url = "http://localhost:4000/products"
+        const request = axios.get(url);
+        request.then(response => setProducts(response.data));
+        request.catch(error => console.log(error));
+    }
+
+    function getFilteredProducts(query){    
+        console.log("filtering! "+query);
+        const url = `http://localhost:4000/products/${query}`
+        const request = axios.get(url);
+        request.then(response => {
+            console.log(response.data);
+            console.log(selectedProducts);
+           /*  selectedProducts?.forEach(
+                response.data
+            ); */
+            setProducts(response.data)
+        });
+        request.catch(error => console.log(error.response));
+    }
+
+    const productsList = products?.map((product, i) => {
+        return <Product 
+                    key={i}
+                    id={product.id} 
+                    product={product}
+                    list={selectedProducts} 
+                    setList={setSelectedProducts}
+                />
+        ;
+    });
+
+    function getTotal(lista){
+        let total = 0;
+        if(lista.length>0){
+            for(let i = 0; i< lista.length; i++){
+                if(lista[i]!==undefined){
+                    total+=Number(lista[i].quantity);
+                }
+            }
+        }
+        return total;
+    }
+
+    function goToCart(){
+        history.push("/cart");
+    }
+
+    console.log(selectedProducts);
+
     return(
         <Page>
             <FixedContainer>
                 <TopBar className="red">
                     <Brand>
-                        <div><img alt="drogas_camp_logo" src="../../assets/logo.png"/></div>
+                        <div><img alt="drogas_camp_logo" src={logo}/></div>
                         <div>DROGASCAMP</div>
                     </Brand>
-                    <SearchBar className="big-screen" placeholder="Encontre seu produto..."/>
-                    <UserConfig><FaUser size="26" fill="#363380"/></UserConfig>
+                    <SearchBar
+                        filter={getFilteredProducts} 
+                        value={valueSearchBar}
+                        setValue={setValueSearchBar} 
+                        bigscreen={true}
+                    />
+                    <UserConfig >
+                        <div>
+                            <FaUser size="26" fill="#363380"/>
+                        </div>
+                    </UserConfig>
                 </TopBar>
                 <div className="search-bar-container red">
-                    <SearchBar className="small-screen" placeholder="Encontre seu produto..."/>
+                    <SearchBar
+                        filter={getFilteredProducts}
+                        value={valueSearchBar}
+                        setValue={setValueSearchBar} 
+                        bigscreen={false}
+                    />
                 </div>
             </FixedContainer>
-            <Container>
+            <Container model={products?.length===0?true:undefined}>
                 <div>
-                    Nenhum produto cadastrado. 
+                    <h1>Escolha o(s) produto(s) de interesse e a quantidade desejada:</h1>
+                    <Cart onClick={goToCart} noProducts={totalQuantity===0?true:undefined}>
+                        <ImForward className="icon" size="32" fill="#7dff49"/>
+                        <TiShoppingCart className="icon" size="40" fill="#7dff49"/>
+                        <div>
+                            {selectedProducts.length>0?
+                                getTotal(selectedProducts) :
+                                0
+                            }
+                        </div>
+                    </Cart>
+                </div>
+                
+                <div>
+                    {products?.length === 0 ?
+                        "Nenhum produto cadastrado." :
+                        productsList
+                    } 
                 </div>
             </Container>
         </Page>
     );  
-}
+} 
+
+const Cart = styled.div`
+    display: ${props => props.noProducts?"none":"flex"};
+    justify-content: center;
+    align-items: center;
+    margin-left: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 2px 6px;
+
+    > div {
+        font-size: 20px;
+        height: 26px;
+        min-width: 26px;
+        border-radius:100%;
+        background-color: #E5E5E5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 500px){
+        margin-left: 0;
+    }
+`;
 
 const FixedContainer = styled.div`
     position: fixed;
@@ -43,23 +187,51 @@ const TopBar = styled.div`
     width: 100vw;
     padding-right: 18px;
     padding-left: 10px;
-
 `;
 
 const Container = styled.div`
     background-color: #E5E5E5;
-    height: 100vh;
     padding: 30px;
     padding-top: 110px;
+
+    h1 {
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    >div:first-of-type {
+        display:flex;
+        justify-content:space-between;
+        margin-bottom: 10px;
+        height:40px;
+
+    }
     
-    > div {
+    > div:last-of-type {
+        min-height: Calc(100vh - 190px);
         height: 100%;
         width: 100%;
         background-color: #fff;
         border-radius: 6px;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        justify-content: ${props => props.model?"center": "none"};
+        align-items: ${props => props.model?"center": "none"};
+        flex-wrap: wrap;
+        padding: 20px 10px 10px 10px;
+    }
+
+    @media (max-width: 560px){
+        padding-top: 180px;
+
+        > div:last-of-type{
+            min-height: Calc(100vh - 260px);
+        }
+    }
+
+    @media (max-width:500px){
+        h1 {
+            display: none;
+        }
     }
 `;
 
@@ -77,7 +249,7 @@ const Brand = styled.div`
         font-weight: bold;
         margin-top: 8px;
 
-        @media (max-width: 710px){
+        @media (max-width: 715px){
             display: none;
         }
         @media (max-width: 560px){
@@ -92,28 +264,6 @@ const Brand = styled.div`
     } 
 `;
 
-const SearchBar = styled.input`
-    width: 330px;
-    height: 45px;
-    border-radius: 6px;
-    padding-left: 15px; 
-    border: 0;
-    outline: 0;
-    font-weight: bold;
-    font-size: 22px;
-    line-height: 33px;
-    color: #363380;
-    font-family: 'Arvo', serif;
-
-    ::placeholder {
-        color: #363380;
-    }
-
-    @media (max-width: 560px){
-        width: 300px;
-    } 
-`;
-
 const UserConfig = styled.div`
     height: 48px;
     width: 48px;
@@ -123,6 +273,18 @@ const UserConfig = styled.div`
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
+
+    > div {
+        > div {
+            height: 160px;
+            width: 160px;
+            opacity: 0.6;
+            background-color: #FFF;
+            position: absolute;
+            top:0;
+            right:0;
+        }
+    }
 
     @media (max-width: 560px){
         margin-top: 10px;
