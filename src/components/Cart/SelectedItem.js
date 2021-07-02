@@ -5,9 +5,9 @@ import {AiFillPlusCircle} from 'react-icons/ai'
 import { useState } from 'react'
 
 export default function SelectedItem({item, setProducts, products}) {
-    const [qtd, setQtd] = useState(0)
+    const [productQuantity, setproductQuantity] = useState(0)
     const price = (item.price/100).toFixed(2).toString().replace(".",",")
-    const totalValue = (qtd*item.price/100).toFixed(2).toString().replace(".",",")
+    const totalValue = (productQuantity*item.price/100).toFixed(2).toString().replace(".",",")
     const index = item.id-1
 
     function addOrRemove(param){
@@ -15,13 +15,13 @@ export default function SelectedItem({item, setProducts, products}) {
 
         request.then( (response) => {
             if(response.data.add) {
-                setQtd(qtd+1)
-                item.quantity = qtd +1 
+                setProductQuantity(productQuantity+1)
+                item.quantity = productQuantity +1 
                 products[index] = item
                 setProducts([...products])
             } else if(response.data.remove){
-                setQtd(qtd-1)
-                item.quantity = qtd -1
+                setProductQuantity(productQuantity-1)
+                item.quantity = productQuantity -1
                 products[index] = item
                 setProducts([...products])
             } 
@@ -48,9 +48,9 @@ export default function SelectedItem({item, setProducts, products}) {
             <Order>
                 <Remove onClick={removeProduct}>Remover</Remove>
                 <ContainerQuantity>
-                    <RemoveIcon onClick={() => addOrRemove('remove')} none={qtd}/>
+                    <RemoveIcon onClick={() => addOrRemove('remove')} none={productQuantity}/>
                     <Quantity>
-                        {qtd}
+                        {productQuantity}
                     </Quantity>
                     <AddIcon onClick={() => addOrRemove('add')}/>
                 </ContainerQuantity>
