@@ -17,12 +17,12 @@ export default function SideBar({totals}) {
 
     function proceedToCheckout(){
         const body ={products: selected, totals}
-        const request = axios.post('http://localhost:4000/sales',body)
+        const request = axios.post('https://drogas-camp.herokuapp.com/sales',body)
         
         request.then(() => {
             setStatus(200)
             setIsOpen(true)
-            
+
         }) 
     }
     

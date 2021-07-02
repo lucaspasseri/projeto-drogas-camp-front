@@ -46,13 +46,13 @@ export default function Home(){
     });
 
     function getProducts(){
-        const url = "http://localhost:4000/products"
+        const url = "https://drogas-camp.herokuapp.com/products"
         const request = axios.get(url);
         request.then(response => setProducts(response.data));
     }
 
     function getFilteredProducts(query){    
-        const url = `http://localhost:4000/products/${query}`
+        const url = `https://drogas-camp.herokuapp.com/products/${query}`
         const request = axios.get(url);
         request.then(response => {
             setProducts(response.data)

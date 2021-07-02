@@ -35,7 +35,7 @@ export default function SignUp(){
         setDisabled(true);
 
         const body = {name, email, password, confirmPassword}
-        const request = axios.post("http://localhost:4000/sign-up", body)
+        const request = axios.post("https://drogas-camp.herokuapp.com/sign-up", body)
        
         request.then( () => {
             setStatus(201)
