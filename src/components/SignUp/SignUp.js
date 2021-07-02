@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import axios from 'axios'
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components'
@@ -6,7 +6,13 @@ import Loader from 'react-loader-spinner'
 import logo from "../../assets/logo.png"
 import AlertModal from '../Modal/AlertModal'
 
+import UserContext from "../../contexts/UserContext";
+
 export default function SignUp(){
+
+    const { setUser } = useContext(UserContext);
+    const history = useHistory();
+
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -15,7 +21,14 @@ export default function SignUp(){
     const [status, setStatus] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
 
-    const history = useHistory();
+    useEffect(() => {
+        if (localStorage.user) {
+          const userStorage = JSON.parse(localStorage.user);
+          setUser(userStorage);
+          history.push("/");
+        }
+    });
+
 
     function signUp(e){
         e.preventDefault();

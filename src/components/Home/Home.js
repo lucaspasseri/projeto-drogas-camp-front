@@ -21,7 +21,7 @@ export default function Home(){
     const [valueSearchBar, setValueSearchBar] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    const { setUser} = useContext(UserContext);
+    const { setUser, user} = useContext(UserContext);
 
     let totalQuantity = 0;
     for (let i = 0; i < selectedProducts.length; i++){
@@ -31,13 +31,23 @@ export default function Home(){
     }
 
     useEffect(() => {
-        if (localStorage.user) {
-          const userStorage = JSON.parse(localStorage.user);
-          setUser(userStorage);
-        } 
-        if(products===undefined){
-            getProducts();
-        } 
+        if(!user){
+            if(localStorage.user){
+                console.log(localStorage);
+                console.log(localStorage.user);
+                console.log(JSON.parse(localStorage.user));
+                const userStorage = JSON.parse(localStorage.user);
+                setUser(userStorage);
+                return;
+            }else {
+                history.push("/sign-in");
+                return;
+            }
+        } else {
+            if(products===undefined){
+                getProducts();
+            }
+        }
     });
 
     function getProducts(){
