@@ -2,16 +2,18 @@ import axios from 'axios'
 import styled from 'styled-components'
 import {IoIosRemoveCircle} from 'react-icons/io'
 import {AiFillPlusCircle} from 'react-icons/ai'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import UserContext from "../../contexts/UserContext";
 
 export default function SelectedItem({item, setProducts, products}) {
-    const [productQuantity, setProductQuantity] = useState(0)
+    const {cart, setCart} = useContext(UserContext);
+    const [productQuantity, setProductQuantity] = useState(item.quantity)
     const price = (item.price/100).toFixed(2).toString().replace(".",",")
     const totalValue = (productQuantity*item.price/100).toFixed(2).toString().replace(".",",")
-    const index = item.id-1
+    const index = item.productId-1
 
     function addOrRemove(param){
-        const request = axios.post(`http://localhost:4000/products/${item.id}/${param}`)
+        const request = axios.post(`http://localhost:4000/products/${item.productId}/${param}`)
 
         request.then( (response) => {
             if(response.data.add) {
@@ -29,10 +31,8 @@ export default function SelectedItem({item, setProducts, products}) {
     }
 
     function removeProduct() {
-        console.log('deletei')
-        // const x = products.splice(index,1)
-        // console.log(x)
-        // setProducts([...products])
+        products.splice(index,1)
+        setCart([...products])
     }
     
     return(
@@ -120,10 +120,10 @@ const Order = styled.div`
     }
 `
 const RemoveIcon = styled(IoIosRemoveCircle)`
-    color: ${props => props.none !== 0 ? '#323264' : '#D9DADA'};
+    color: ${props => props.none !== 1 ? '#323264' : '#D9DADA'};
     font-size: 40px;
     cursor: pointer;
-    pointer-events: ${props=> props.none === 0? "none": "auto"};
+    pointer-events: ${props=> props.none === 1? "none": "auto"};
     @media (max-width: 376px) {
         font-size: 25px;
     }

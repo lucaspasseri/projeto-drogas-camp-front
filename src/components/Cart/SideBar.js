@@ -2,9 +2,12 @@ import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import ConfirmationModal from '../Modal/ConfirmationModal'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+
+import UserContext from "../../contexts/UserContext";
 
 export default function SideBar({totals, products}) {
+    const {user} = useContext(UserContext);
     const [status, setStatus] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const history = useHistory()
@@ -18,6 +21,7 @@ export default function SideBar({totals, products}) {
         request.then(() => {
             setStatus(200)
             setIsOpen(true)
+            
         }) 
     }
     

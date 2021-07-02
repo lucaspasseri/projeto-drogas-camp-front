@@ -8,7 +8,7 @@ export default function Product({id, product, setList, list}){
     const { setUser, setCart, cart} = useContext(UserContext);
 
     console.log(cart[id]);
-
+   
     const [selected, setSelected] = useState(false);
     const [units, setUnits] = useState(0);
 
@@ -27,6 +27,10 @@ export default function Product({id, product, setList, list}){
             //counter[id]=0;
             list[id] = {
                 productId: id,
+                price: product.price,
+                name: product.name,
+                image: product.image,
+                description: product.description,
                 quantity: 0
             };
             //setCounter([...counter]);
@@ -38,6 +42,10 @@ export default function Product({id, product, setList, list}){
             //counter[id]=1;
             list[id] = {
                 productId : id,
+                price: product.price,
+                name: product.name,
+                image: product.image,
+                description: product.description,
                 quantity: 1
             };
             //setCounter([...counter]);
@@ -51,6 +59,10 @@ export default function Product({id, product, setList, list}){
         //counter[id]=event.target.value;
         list[id]={
             productId: id,
+            price: product.price,
+            name: product.name,
+            image: product.image,
+            description: product.description,
             quantity: Number(event.target.value)
         };
         //setCounter([...counter]);

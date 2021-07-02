@@ -23,7 +23,7 @@ export default function ConfirmationModal({status, isOpen, setIsOpen}){
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <Title>{status === 200 ? 'Compra realizada com sucesso!' : 'Houve algum problema!'
+        <Title>{status === 200 ? 'Sua compra foi realizada com sucesso, o resumo do pedido foi enviado para o seu email!' : 'Houve algum problema!'
         }</Title>
         <Form onSubmit={stayOnPage}>
           <Button>Ok</Button>
@@ -33,8 +33,11 @@ export default function ConfirmationModal({status, isOpen, setIsOpen}){
 }
 
 const customStyles = {
+    overlay:{
+      backgroundColor: 'rgba(89,89,88,0.5)'
+    },
     content: {
-      backgroundColor: '#E40017',
+      backgroundColor: '#fff',
       top: '50%',
       left: '50%',
       right: 'auto',
@@ -45,7 +48,7 @@ const customStyles = {
     },
   };
   const Title = styled.h2`
-    color: #fff;
+    color: #000;
     font-weight: 700;
     font-size: 15px;
     padding-bottom: 30px;
@@ -57,7 +60,7 @@ const customStyles = {
   const Button = styled.button`
       border-radius: 5px;
       border: none;
-      background-color: #480085;
+      background-color: #323264;
       color: #fff;
       font-weight: 700;
       cursor: pointer;

@@ -36,8 +36,11 @@ export default function AlertModal({status, isOpen, setIsOpen}){
 }
 
 const customStyles = {
+    overlay:{
+      backgroundColor: 'rgba(89,89,88,0.5)'
+    },
     content: {
-      backgroundColor: '#E40017',
+      backgroundColor: '#fff',
       top: '50%',
       left: '50%',
       right: 'auto',

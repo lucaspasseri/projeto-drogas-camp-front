@@ -5,29 +5,17 @@ import EmptyCart from './EmptyCart';
 
 import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
-import { useContext } from "react";
-
+import logo from "../../assets/logo.png";
 import UserContext from "../../contexts/UserContext";
 
 export default function Cart(){
-    const {user, cart} = useContext(UserContext);
-    console.log(cart);
-    const items = [
-        {
-            id: 1, name: 'Coca-Cola Soda, Fridge Pack', description: '350ml', price: 3500, inStock: 15, image: 'https://pics.drugstore.com/prodimg/416805/220.jpg', quantity: 0
-        },
-        {
-            id: 2, name: 'Covid-19 test', description: 'the best', price: 1500, inStock: 15, image: 'https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2021/03/shutterstock_1656883729-1.jpg', quantity: 0
-        },
-        {
-            id: 3, name: 'Covid-19 test', description: 'the best', price: 1500, inStock: 15, image: 'https://www.medicaldevice-network.com/wp-content/uploads/sites/11/2021/03/shutterstock_1656883729-1.jpg', quantity: 0
-        }
-    ]
-    const [products,setProducts] = useState(items)
+    const {cart} = useContext(UserContext);
+    const selected = cart.filter(item => item !== undefined);
+    const [products,setProducts] = useState([...selected]);
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const totals = products.map( item => item.quantity*item.price/100).reduce(reducer);
+    const totals = products.length === 0 ? 0 : products.map( item => item.quantity*item.price/100).reduce(reducer);
     
     return(
         <>
@@ -40,7 +28,7 @@ export default function Cart(){
             </Title>
             <Content>
                 <ItemContainer>
-                    {items.map( item => <SelectedItem key={item.id} item={item} products={products} setProducts={setProducts} />)}
+                    {selected.map( item => item.quantity===0 ? null :<SelectedItem key={item.id} item={item} products={products} setProducts={setProducts} />)}
                 </ItemContainer>
                 <SideBar totals={totals} products={products}/>
             </Content></> : 
