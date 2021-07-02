@@ -21,7 +21,7 @@ export default function Home(){
     const [valueSearchBar, setValueSearchBar] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    const { setUser, user} = useContext(UserContext);   
+    const { setUser, user, setCart} = useContext(UserContext);   
 
     let totalQuantity = 0;
     for (let i = 0; i < selectedProducts.length; i++){
@@ -98,6 +98,8 @@ export default function Home(){
 
     function logOut(){
         localStorage.clear();
+        setUser()
+        setCart([])
         history.push("/sign-in");
     }
 
