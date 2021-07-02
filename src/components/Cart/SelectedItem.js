@@ -5,30 +5,28 @@ import {AiFillPlusCircle} from 'react-icons/ai'
 import { useState, useContext } from 'react'
 import UserContext from "../../contexts/UserContext";
 
-export default function SelectedItem({item, setProducts, products}) {
+export default function SelectedItem({i, item, setProducts, products}) {
     const {cart, setCart} = useContext(UserContext);
     const [productQuantity, setProductQuantity] = useState(item.quantity)
     const price = (item.price/100).toFixed(2).toString().replace(".",",")
     const totalValue = (productQuantity*item.price/100).toFixed(2).toString().replace(".",",")
-    const index = item.productId-1
-
+    
     function addOrRemove(param){
         if(param === 'add') {
             setProductQuantity(productQuantity+1)
-            item.quantity = productQuantity +1 
-            products[index] = item
+            item.quantity = productQuantity + 1
+            products[i] = item
             setProducts([...products])
         } else if(param === 'remove'){
             setProductQuantity(productQuantity-1)
-            item.quantity = productQuantity -1
-            products[index] = item
+            item.quantity = productQuantity - 1
+            products[i] = item
             setProducts([...products])
-        } 
-        
+        }   
     }
 
     function removeProduct() {
-        products.splice(index,1)
+        products.splice(i,1)
         setCart([...products])
     }
     

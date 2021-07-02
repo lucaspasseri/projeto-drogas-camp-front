@@ -32,7 +32,7 @@ export default function Cart(){
             </Title>
             <Content>
                 <ItemContainer>
-                    {selected.map( item => item.quantity===0 ? null :<SelectedItem key={item.id} item={item} products={products} setProducts={setProducts} />)}
+                    {selected.map( (item,i) => item.quantity===0 ? null :<SelectedItem i={i} key={item.id} item={item} products={products} setProducts={setProducts} />)}
                 </ItemContainer>
                 <SideBar totals={totals} products={products}/>
             </Content></> : 
