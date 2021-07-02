@@ -21,7 +21,7 @@ export default function Home(){
     const [valueSearchBar, setValueSearchBar] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    const { setUser, user} = useContext(UserContext);
+    const { setUser, user} = useContext(UserContext);   
 
     let totalQuantity = 0;
     for (let i = 0; i < selectedProducts.length; i++){
@@ -33,15 +33,10 @@ export default function Home(){
     useEffect(() => {
         if(!user){
             if(localStorage.user){
-                console.log(localStorage);
-                console.log(localStorage.user);
-                console.log(JSON.parse(localStorage.user));
                 const userStorage = JSON.parse(localStorage.user);
                 setUser(userStorage);
-                return;
             }else {
                 history.push("/sign-in");
-                return;
             }
         } else {
             if(products===undefined){
@@ -54,19 +49,14 @@ export default function Home(){
         const url = "http://localhost:4000/products"
         const request = axios.get(url);
         request.then(response => setProducts(response.data));
-        request.catch(error => console.log(error));
     }
 
     function getFilteredProducts(query){    
-        console.log("filtering! "+query);
         const url = `http://localhost:4000/products/${query}`
         const request = axios.get(url);
         request.then(response => {
-            console.log(response.data);
-            console.log(selectedProducts);
             setProducts(response.data)
         });
-        request.catch(error => console.log(error.response));
     }
 
     const productsList = products?.map((product, i) => {
@@ -106,7 +96,10 @@ export default function Home(){
         
      }
 
-    console.log(isOpen);
+    function logOut(){
+        localStorage.clear();
+        history.push("/sign-in");
+    }
 
     return(
         <Page onClick={closeTab}>
@@ -126,7 +119,7 @@ export default function Home(){
                         <div>
                             <FaUser size="26" fill="#363380"/>
                             <Tab isOpen={isOpen}>
-                                <button>Log out</button>
+                                <button onClick={logOut}>Log out</button>
                             </Tab>
                         </div>
                     </UserConfig>

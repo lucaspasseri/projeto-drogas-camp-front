@@ -11,7 +11,7 @@ import UserContext from "../../contexts/UserContext";
 
 export default function Cart(){
     const {cart} = useContext(UserContext);
-    console.log(cart);
+
     const items = [
         {
             id: 1, name: 'Coca-Cola Soda, Fridge Pack', description: '350ml', price: 3500, inStock: 15, image: 'https://pics.drugstore.com/prodimg/416805/220.jpg', quantity: 0
