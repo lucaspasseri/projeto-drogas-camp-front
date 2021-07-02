@@ -1,11 +1,16 @@
+import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 
-export default function SideBar({totals}) {
+export default function SideBar({totals, products}) {
+    const history = useHistory()
     const total = totals.toFixed(2).toString().replace(".",",")
     const rewards = (totals*0.01).toFixed(2).toString().replace(".",",")
 
     function proceedToCheckout(){
-        
+        history.push('/payment')
+        const body ={products, totals}
+        const request = axios.post('http://localhost:4000/sales',body) 
     }
     
     return (
@@ -32,6 +37,10 @@ export default function SideBar({totals}) {
 
 const OrderSummary = styled.div`
     width: 30%;
+    @media (max-width: 376px) {
+        width: 80%;
+        margin-bottom: 50px;
+    }
 `
 const Div = styled.div`
     display: flex;

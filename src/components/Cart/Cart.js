@@ -30,14 +30,14 @@ export default function Cart(){
         <Container>
             { products.length !==0 ? 
             <><Title>
-                <BackToItems to="/"> <ArrowBackIcon/> Continue comprando</BackToItems>
+                <BackToItems to="/"><ArrowBackIcon/> Continue comprando</BackToItems>
                 <h1>Carrinho de compras</h1>
             </Title>
             <Content>
                 <ItemContainer>
                     {items.map( item => <SelectedItem key={item.id} item={item} products={products} setProducts={setProducts} />)}
                 </ItemContainer>
-                <SideBar totals={totals}/>
+                <SideBar totals={totals} products={products}/>
             </Content></> : 
             <EmptyCart/> 
             }
@@ -57,20 +57,37 @@ const Container = styled.div`
     margin-top: 50px;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 376px) {
+        width: 375px;
+    }
+    
 `
 const Title = styled.div`
+
     h1{
         font-size: 25px;
         font-weight: 700;
         margin-bottom: 35px;
     }
+    @media (max-width: 376px) {
+        margin: 0 auto;
+    }
 `
 const Content = styled.div`
     display: flex;
     justify-content: space-between;
+
+    @media (max-width: 376px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `
 const ItemContainer = styled.div`
     width: 65%;
+    @media (max-width: 376px) {
+        width: 80%;
+    }
 `
 const ArrowBackIcon = styled(IoIosArrowBack)`
     font-size: 20px;

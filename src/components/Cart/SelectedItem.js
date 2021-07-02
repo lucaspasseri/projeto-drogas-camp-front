@@ -12,7 +12,7 @@ export default function SelectedItem({item, setProducts, products}) {
 
     function addOrRemove(param){
         const request = axios.post(`http://localhost:4000/products/${item.id}/${param}`)
-        
+
         request.then( (response) => {
             if(response.data.add) {
                 setQtd(qtd+1)
@@ -25,9 +25,14 @@ export default function SelectedItem({item, setProducts, products}) {
                 products[index] = item
                 setProducts([...products])
             } 
-            
         })
-       
+    }
+
+    function removeProduct() {
+        console.log('deletei')
+        // const x = products.splice(index,1)
+        // console.log(x)
+        // setProducts([...products])
     }
     
     return(
@@ -41,7 +46,7 @@ export default function SelectedItem({item, setProducts, products}) {
                 </Text>
             </Hold>
             <Order>
-                <Remove>Remover</Remove>
+                <Remove onClick={removeProduct}>Remover</Remove>
                 <ContainerQuantity>
                     <RemoveIcon onClick={() => addOrRemove('remove')} none={qtd}/>
                     <Quantity>
@@ -64,6 +69,12 @@ const Item = styled.div`
     justify-content: space-between;
     padding: 20px 10px;
     margin-bottom: 20px;
+    @media (max-width: 376px) {
+        font-size: 15px;
+        flex-direction: column;
+        padding: 10px 10px;;
+    }
+
 `
 const Hold = styled.div`
     display: flex;
@@ -71,6 +82,10 @@ const Hold = styled.div`
 const Img = styled.img`
     height: 120px;
     width: 120px;
+    @media (max-width: 376px) {
+        height: 75px;
+        width: 75px;
+    }
 `
 const Text = styled.div`
     display: flex;
@@ -98,17 +113,28 @@ const Order = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media (max-width: 376px) {
+        flex-direction: row;
+        height: 15%;
+        align-items: center;
+    }
 `
 const RemoveIcon = styled(IoIosRemoveCircle)`
     color: ${props => props.none !== 0 ? '#323264' : '#D9DADA'};
     font-size: 40px;
     cursor: pointer;
     pointer-events: ${props=> props.none === 0? "none": "auto"};
+    @media (max-width: 376px) {
+        font-size: 25px;
+    }
 `
 const AddIcon = styled(AiFillPlusCircle)`
     color: #323264;
     font-size: 40px;
     cursor: pointer;
+    @media (max-width: 376px) {
+        font-size: 25px;
+    }
 `
 const Quantity = styled.div`
     border-radius: 5px;
@@ -119,16 +145,22 @@ const Quantity = styled.div`
     align-items: center;
     font-weight: 700;
     margin: 0 5px;
+    @media (max-width: 376px) {
+        width: 25px;
+        height: 25px;
+    }
 `
 const ContainerQuantity = styled.div`
     display:flex;
-
 `
 const Price = styled.p`
     text-align: right;
     color: red;
     font-weight: 700;
     font-size: 20px;
+    @media (max-width: 376px) {
+        font-size: 15px;
+    }
 `
 const Remove = styled.p`
     text-align: right;
