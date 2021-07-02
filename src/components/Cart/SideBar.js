@@ -6,8 +6,9 @@ import { useState, useContext } from 'react'
 
 import UserContext from "../../contexts/UserContext";
 
-export default function SideBar({totals, products}) {
-    const {user} = useContext(UserContext);
+export default function SideBar({totals}) {
+    const {user, cart} = useContext(UserContext);
+    const selected = cart.filter(item => item !== undefined);
     const [status, setStatus] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const history = useHistory()
@@ -15,7 +16,7 @@ export default function SideBar({totals, products}) {
     const rewards = (totals*0.01).toFixed(2).toString().replace(".",",")
 
     function proceedToCheckout(){
-        const body ={products, totals}
+        const body ={products: selected, totals}
         const request = axios.post('http://localhost:4000/sales',body)
         
         request.then(() => {

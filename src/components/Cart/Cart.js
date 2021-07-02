@@ -7,7 +7,6 @@ import {IoIosArrowBack} from 'react-icons/io'
 import { Link } from 'react-router-dom';
 import { useState, useContext } from 'react';
 
-import logo from "../../assets/logo.png";
 import UserContext from "../../contexts/UserContext";
 
 export default function Cart(){

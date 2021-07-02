@@ -13,21 +13,18 @@ export default function SelectedItem({item, setProducts, products}) {
     const index = item.productId-1
 
     function addOrRemove(param){
-        const request = axios.post(`http://localhost:4000/products/${item.productId}/${param}`)
-
-        request.then( (response) => {
-            if(response.data.add) {
-                setProductQuantity(productQuantity+1)
-                item.quantity = productQuantity +1 
-                products[index] = item
-                setProducts([...products])
-            } else if(response.data.remove){
-                setProductQuantity(productQuantity-1)
-                item.quantity = productQuantity -1
-                products[index] = item
-                setProducts([...products])
-            } 
-        })
+        if(param === 'add') {
+            setProductQuantity(productQuantity+1)
+            item.quantity = productQuantity +1 
+            products[index] = item
+            setProducts([...products])
+        } else if(param === 'remove'){
+            setProductQuantity(productQuantity-1)
+            item.quantity = productQuantity -1
+            products[index] = item
+            setProducts([...products])
+        } 
+        
     }
 
     function removeProduct() {
